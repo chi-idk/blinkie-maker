@@ -102,8 +102,11 @@ box-shadow: 0 7px 20px var(--shadow);
 }
 
 .tools {
-padding: 16px;
+  padding: 16px;
+  height: 100%;
+  align-self: stretch;
 }
+
 
 .tools section {
 padding-bottom: 17px;
@@ -250,7 +253,13 @@ text-align: center;
 }
 
 .editor {
-grid-template-columns: 1fr;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 22px;
+  max-width: 1200px;
+  margin: 28px auto;
+  padding: 0 20px;
+  align-items: stretch;
 }
 
 .preview-area {
