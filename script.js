@@ -411,8 +411,8 @@ document
 // --------------------------------------------------
 
 document
-  .getElementById("addTextBtn")
-  .addEventListener("click", function() {
+  .getElementById("textX")
+  .addEventListener("input", function(event) {
 
     const number =
       blinkie.layers.filter(function(layer) {
