@@ -148,3 +148,88 @@ element.addEventListener("input", () => {
 
 // Start renderer
 requestAnimationFrame(drawBlinkie);
+
+// --------------------------------------------------
+// LAYER PANEL
+// --------------------------------------------------
+
+const layersList = document.getElementById("layersList");
+
+let selectedLayer = "text";
+
+function getLayerIcon(layer) {
+  if (layer.type === "background") return "▰";
+  if (layer.type === "text") return "T";
+  if (layer.type === "border") return "▧";
+
+  return "✦";
+}
+
+function renderLayers() {
+  layersList.innerHTML = "";
+
+  // Display top layers first
+  [...blinkie.layers].reverse().forEach(layer => {
+
+    const item = document.createElement("div");
+
+    item.className = "layer-item";
+
+    if (layer.id === selectedLayer) {
+      item.classList.add("selected");
+    }
+
+    // Visibility button
+    const visibility = document.createElement("button");
+
+    visibility.className = "layer-visibility";
+
+    visibility.textContent =
+      layer.visible ? "●" : "○";
+
+    visibility.title =
+      layer.visible
+        ? "Hide layer"
+        : "Show layer";
+
+    visibility.addEventListener("click", event => {
+
+      event.stopPropagation();
+
+      layer.visible = !layer.visible;
+
+      renderLayers();
+    });
+
+    // Icon
+    const icon = document.createElement("span");
+
+    icon.className = "layer-icon";
+
+    icon.textContent = getLayerIcon(layer);
+
+    // Name
+    const name = document.createElement("span");
+
+    name.className = "layer-name";
+
+    name.textContent = layer.name;
+
+    // Put everything together
+    item.appendChild(visibility);
+    item.appendChild(icon);
+    item.appendChild(name);
+
+    // Select layer
+    item.addEventListener("click", () => {
+
+      selectedLayer = layer.id;
+
+      renderLayers();
+    });
+
+    layersList.appendChild(item);
+  });
+}
+
+renderLayers();
