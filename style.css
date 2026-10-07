@@ -348,3 +348,35 @@ min-height: auto;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+/* =========================================
+   COMPACT EDITOR SIDEBAR
+========================================= */
+
+.tools {
+  height: min(650px, calc(100vh - 150px));
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: #8bd5f5 #e9f8ff;
+}
+
+.tools::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tools::-webkit-scrollbar-track {
+  background: #e9f8ff;
+  border-radius: 10px;
+}
+
+.tools::-webkit-scrollbar-thumb {
+  background: #8bd5f5;
+  border-radius: 10px;
+}
+
+.tools::-webkit-scrollbar-thumb:hover {
+  background: #62c4ed;
+}
