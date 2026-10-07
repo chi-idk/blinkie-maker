@@ -1011,74 +1011,154 @@ document
 // ADD IMAGE
 // ==================================================
 
-document
-  .getElementById("addImageBtn")
-  .addEventListener(
-    "click",
-    function() {
+const addImageBtn =
+  document.getElementById("addImageBtn");
+
+const newImageUpload =
+  document.getElementById("newImageUpload");
 
 
-      const number =
-        blinkie.layers.filter(
-          function(layer) {
+addImageBtn.addEventListener(
+  "click",
+  function() {
 
-            return (
-              layer.type ===
-              "image"
+    // Open the file picker immediately
+    newImageUpload.click();
+
+  }
+);
+
+
+newImageUpload.addEventListener(
+  "change",
+  function(event) {
+
+    const file =
+      event.target.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    const reader =
+      new FileReader();
+
+
+    reader.onload =
+      function() {
+
+        const image =
+          new Image();
+
+
+        image.onload =
+          function() {
+
+            const number =
+              blinkie.layers.filter(
+                function(layer) {
+
+                  return (
+                    layer.type ===
+                    "image"
+                  );
+
+                }
+              ).length + 1;
+
+
+            const maxWidth = 200;
+
+            let width =
+              image.width;
+
+            let height =
+              image.height;
+
+
+            // Keep huge images reasonable
+            if (width > maxWidth) {
+
+              const ratio =
+                maxWidth / width;
+
+              width =
+                Math.round(
+                  width * ratio
+                );
+
+              height =
+                Math.round(
+                  height * ratio
+                );
+
+            }
+
+
+            const newLayer = {
+
+              id:
+                createId(),
+
+              type:
+                "image",
+
+              name:
+                "Image " + number,
+
+              image:
+                image,
+
+              width:
+                width,
+
+              height:
+                height,
+
+              x:
+                canvas.width / 2,
+
+              y:
+                canvas.height / 2,
+
+              visible:
+                true
+
+            };
+
+
+            blinkie.layers.push(
+              newLayer
             );
 
-          }
-        ).length + 1;
+
+            selectedLayer =
+              newLayer.id;
 
 
-      const newLayer = {
+            loadLayerControls();
 
-        id:
-          createId(),
+            renderLayers();
 
-        type:
-          "image",
 
-        name:
-          "Image " + number,
+            // Allow the same file to be
+            // selected again later.
+            newImageUpload.value =
+              "";
 
-        image:
-          null,
+          };
 
-        width:
-          100,
 
-        height:
-          50,
-
-        x:
-          canvas.width / 2,
-
-        y:
-          canvas.height / 2,
-
-        visible:
-          true
+        image.src =
+          reader.result;
 
       };
 
 
-      blinkie.layers.push(
-        newLayer
-      );
+    reader.readAsDataURL(file);
 
-
-      selectedLayer =
-        newLayer.id;
-
-
-      loadLayerControls();
-
-      renderLayers();
-
-    }
-  );
-
+  }
+);
 
 // ==================================================
 // DELETE LAYER
